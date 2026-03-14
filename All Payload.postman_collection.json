@@ -1,0 +1,392 @@
+{
+  "info": {
+    "_postman_id": "e7e4ff2b-bbb0-40d7-8a55-4cddccbcc0fe",
+    "name": "All Payload",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48629868",
+    "_collection_link": "https://go.postman.co/collection/48629868-e7e4ff2b-bbb0-40d7-8a55-4cddccbcc0fe?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Sign up Copy",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "var random=Math.random().toString(36).substring(2);\r",
+              "\r",
+              "var useremail=\"user\"+random+\"@gmail.com\";\r",
+              "var organisationname=\"isentry\"+random;\r",
+              "var userpassword=\"Koinonia@\"+random;\r",
+              "\r",
+              "pm.environment.set(\"email_env\",useremail);\r",
+              "pm.environment.set(\"name_env\",organisationname);\r",
+              "pm.environment.set(\"password_env\",userpassword);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              " var jsonData=JSON.parse(responseBody);\r",
+              " pm.environment.set(\"userid_env\",jsonData.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"organization_name\": \"{{name_env}}\",\r\n  \"team_size\": \"11-50\",\r\n  \"email\": \"{{email_env}}\",\r\n  \"country\": \"nigeria\",\r\n  \"password\": \"{{password_env}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseurl_global}}/api/v1/organizations/signup",
+          "host": [
+            "{{baseurl_global}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "organizations",
+            "signup"
+          ]
+        },
+        "description": "Generated from cURL:  curl -X 'POST' \\\r\n  'https://teamiq-backend.onrender.com/api/v1/organizations/signup' \\\r\n  -H 'accept: application/json' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"organization_name\": \"isentry\",\r\n  \"team_size\": \"11-50\",\r\n  \"email\": \"user@gmail.com\",\r\n  \"country\": \"nigeria\",\r\n  \"password\": \"Kingsley#9\"\r\n}'\r\n"
+      },
+      "response": []
+    },
+    {
+      "name": "login Copy",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "\r",
+              " "
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "let responseData = pm.response.json();\r",
+              "pm.environment.set(\"authToken\",responseData.data.access_token);\r",
+              "\r",
+              "pm.test(\"Status code is 201\", () => { pm.response.to.have.status(200)\r",
+              "});\r",
+              "// status code name\r",
+              "pm.test(\"status code name is created\", () => {pm.resonse.to.have.status(\"created\")});\r",
+              "//header\r",
+              "pm.test(\"header content-type is present\", () => {pm.response.to.have.header('content-type')});\r",
+              "//cookies header \r",
+              "pm.test(\"cookie language has value\", () => {pm.expect(pm.cookies.has('language')).to.not.be.true});\r",
+              "//response time\r",
+              "pm.test(\"response time is less than 200ms\", () => {pm.expect(pm.response.responseTime).to.be.below(200) });\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"{{email_env}}\",\r\n  \"password\": \"{{password_env}}\",\r\n  \"remember_me\": true  \r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseurl_global}}/api/v1/auth/login",
+          "host": [
+            "{{baseurl_global}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "login"
+          ]
+        },
+        "description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://teamiq-backend.onrender.com/api/v1/auth/login' \\\r\n  -H 'accept: application/json' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"email\": \"user@example.com\",\r\n  \"password\": \"string\",\r\n  \"remember_me\": false\r\n}'"
+      },
+      "response": []
+    },
+    {
+      "name": "onboarding-complete",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"organization_image\": \"https://example.com/images/techcorp-logo.png\",\r\n  \"description\": \"TechCorp is a leading software development company specializing in cloud solutions and AI-powered analytics. We help businesses transform their operations through innovative technology and strategic consulting.\",\r\n  \"sector\": \"Technology\",\r\n  \"social_media_handles\": {\r\n    \"twitter\": \"@techcorp_official\",\r\n    \"linkedin\": \"linkedin.com/company/techcorp\",\r\n    \"instagram\": \"@techcorp\"\r\n  },\r\n  \"domain_link\": \"https://techcorp.com\",\r\n  \"favorite_tools\": [\r\n    \"Slack\",\r\n    \"Jira\",\r\n    \"GitHub\",\r\n    \"Figma\",\r\n    \"AWS\"\r\n  ],\r\n  \"website\": \"https://www.techcorp.com\",\r\n  \"phone_number\": \"+1-555-0123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseurl_global}}/api/v1/organizations/onboarding-complete",
+          "host": [
+            "{{baseurl_global}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "organizations",
+            "onboarding-complete"
+          ]
+        },
+        "description": "Generated from cURL: curl -X 'PATCH' \\\r\n  'https://teamiq-backend.onrender.com/api/v1/organizations/onboarding-complete' \\\r\n  -H 'accept: application/json' \\\r\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJoam51c2VyQGV4YW1wbGUuY29tIiwiZXhwIjoxNzYyNDQ5MDUxLCJlbnRpdHlfdHlwZSI6Im9yZ2FuaXphdGlvbiJ9.CzVz_EHjOau4nJTZ1RmxIF76K5Ibun6vLdtjLAKUidQ' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"organization_image\": \"https://example.com/images/techcorp-logo.png\",\r\n  \"description\": \"TechCorp is a leading software development company specializing in cloud solutions and AI-powered analytics. We help businesses transform their operations through innovative technology and strategic consulting.\",\r\n  \"sector\": \"Technology\",\r\n  \"social_media_handles\": {\r\n    \"twitter\": \"@techcorp_official\",\r\n    \"linkedin\": \"linkedin.com/company/techcorp\",\r\n    \"instagram\": \"@techcorp\"\r\n  },\r\n  \"domain_link\": \"https://techcorp.com\",\r\n  \"favorite_tools\": [\r\n    \"Slack\",\r\n    \"Jira\",\r\n    \"GitHub\",\r\n    \"Figma\",\r\n    \"AWS\"\r\n  ],\r\n  \"website\": \"https://www.techcorp.com\",\r\n  \"phone_number\": \"+1-555-0123\"\r\n}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Invitation",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData=JSON.parse(responseBody);\r",
+              "pm.environment.set(\"invcode_env\",jsonData.data.invitation_code);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "var random=Math.random().toString(36).substring(2);\r",
+              "\r",
+              "var useremail=\"intern_env\"+random+\"@gmail.com\";\r",
+              "pm.environment.set(\"intern_env\",useremail);\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"{{intern_env}}\",\r\n  \"role\": \"intern\",\r\n  \"stack\": \"quality_assuance\" \r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseurl_global}}/api/v1/invitations/",
+          "host": [
+            "{{baseurl_global}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "invitations",
+            ""
+          ]
+        },
+        "description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://teamiq-backend.onrender.com/api/v1/invitations/' \\\r\n  -H 'accept: application/json' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"email\": \"user@example.com\",\r\n  \"role\": \"intern\",\r\n  \"stack\": \"string\"\r\n}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Register User",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "var random=Math.random().toString(36).substring(2);\r",
+              "\r",
+              "var useremail=\"user\"+random+\"@gmail.com\";\r",
+              "var organisationname=\"isentry\"+random;\r",
+              "var userpassword=\"Koinonia@\"+random;\r",
+              "\r",
+              "pm.environment.set(\"email_env\",useremail);\r",
+              "pm.environment.set(\"name_env\",organisationname);\r",
+              "pm.environment.set(\"password_env\",userpassword);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"first_name\": \"user\",\r\n  \"last_name\": \"name\",\r\n  \"username\": \"{{name_env}}\",\r\n  \"email\": \"{{intern_env}}\",\r\n  \"country\": \"nigeria\",\r\n  \"role\": \"intern\",\r\n  \"password\": \"{{password_env}}\",\r\n  \"repeatpassword\": \"{{password_env}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseurl_global}}/api/v1/auth/register/user?invitation_code={{invcode_env}}",
+          "host": [
+            "{{baseurl_global}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "register",
+            "user"
+          ],
+          "query": [
+            {
+              "key": "invitation_code",
+              "value": "{{invcode_env}}"
+            }
+          ]
+        },
+        "description": "Generated from cURL: curl -X 'POST' \\\r\n  'https://teamiq-backend.onrender.com/api/v1/auth/register/user?invitation_code=issentry' \\\r\n  -H 'accept: application/json' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n  \"first_name\": \"string\",\r\n  \"last_name\": \"string\",\r\n  \"username\": \"string\",\r\n  \"email\": \"user@example.com\",\r\n  \"country\": \"string\",\r\n  \"role\": \"intern\",\r\n  \"password\": \"string\",\r\n  \"repeatpassword\": \"string\"\r\n}'"
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{authToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
